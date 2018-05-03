@@ -14,7 +14,7 @@
     </style>
 
     <style name="Dialog" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating">false</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>

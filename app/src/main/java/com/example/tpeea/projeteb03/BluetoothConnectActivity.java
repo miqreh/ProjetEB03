@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
@@ -16,15 +18,10 @@ public class BluetoothConnectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_connect);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolb));
+        //this.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-       /* BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
-        List<String> s = new ArrayList<String>();
-        for(BluetoothDevice bt : pairedDevices)
-            s.add(bt.getName()); */
-
-       // setListAdapter(new ArrayAdapter<String>(this, R.id.ListApp, s));
 
     }
 }

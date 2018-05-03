@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         switch (itemId) {
             case R.id.connect:
-                Toast.makeText(this, "ultracoolos", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "ultracoolos", Toast.LENGTH_SHORT).show();
                 switch (BluetoothRights()) {
                     case NO_ADAPTER: {
                         Toast.makeText(this, "Il faut un adaptateur Bluetooth", Toast.LENGTH_SHORT).show();

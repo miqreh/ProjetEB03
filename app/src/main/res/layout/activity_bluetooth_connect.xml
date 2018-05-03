@@ -6,38 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".BluetoothConnectActivity">
 
-<android.support.v7.widget.Toolbar android:layout_height="match_parent" android:layout_width="match_parent">
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:gravity="top"
         android:orientation="vertical"
-        android:gravity="center">
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolb"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <TextView
             android:id="@+id/ListAppTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Appareils appairés" />
+            android:text="Appareils appairés"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="660dp" />
 
         <ListView
             android:id="@+id/ListApp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/ListFoundTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Appareils découverts" />
+
         <ListView
             android:id="@+id/ListFound"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
     </LinearLayout>
 
-</android.support.v7.widget.Toolbar>
+
 
 
 </android.support.constraint.ConstraintLayout>
