@@ -26,7 +26,6 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private ArrayList foundDevicesArray = new ArrayList();
     private ArrayList pairedDevicesArray = new ArrayList();
-    private ArrayList macAddressesArray = new ArrayList();
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -41,11 +40,11 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
     }
 
     //classe interne étendant broadcastreceiver
-    class test extends BroadcastReceiver{
+    class cReceiver extends BroadcastReceiver{
 
         private ArrayAdapter adapteur;
 
-        public test (ArrayAdapter adapteur){
+        public cReceiver (ArrayAdapter adapteur){
             super();
             this.adapteur=adapteur;
         }
@@ -59,7 +58,6 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
                 BluetoothDevice newDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (newDevice.getName()!=null){
                     adapteur.add(newDevice.getName()+"\n"+newDevice.getAddress());
-
                     Toast.makeText(context, "Appareil ajouté", Toast.LENGTH_SHORT).show(); //juste pour les tests
                 }
 
@@ -70,6 +68,8 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
             }
         }
     };
+
+    private cReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
         IntentFilter filter1 = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 
-        test mReceiver = new test(foundDevicesAdapter);
+        mReceiver = new cReceiver(foundDevicesAdapter);
         registerReceiver(mReceiver, filter1);
         registerReceiver(mReceiver, filter2);
         mBluetoothAdapter.startDiscovery();
@@ -102,9 +102,12 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
         listApp.setAdapter(pairedDevicesAdapter);
         listApp.setOnItemClickListener(this);
 
-
-
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
 }
 
