@@ -1,7 +1,9 @@
 package com.example.tpeea.projeteb03;
 
 import android.Manifest;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -100,4 +102,18 @@ public class MainActivity extends AppCompatActivity {
         return true;
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                BluetoothDevice btDevice = data.getParcelableExtra("btDevice");
+                Toast.makeText(this, btDevice.getName(), Toast.LENGTH_SHORT).show();
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(this, "retour cancelled", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
 }
