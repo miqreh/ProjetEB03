@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BluetoothConnectActivity" android:theme="@style/Dialog">
+        <activity android:name=".BluetoothConnectActivity" android:theme="@style/Dialog" android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
     </application>
 
