@@ -12,9 +12,9 @@ public class OscilloManager implements Transceiver.TransceiverDataListener, Tran
     }
 
     //Singleton
-    public getOscilloManager(){
+    public OscilloManager getOscilloManager(){
         if(instance == null){
-            instance = OscilloManager();
+            instance = new OscilloManager();
         }
         return instance;
     }
