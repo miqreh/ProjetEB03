@@ -1,5 +1,4 @@
 package com.example.tpeea.projeteb03;
-// Test 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -63,7 +62,6 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
 
             }else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
                 mBluetoothAdapter.cancelDiscovery();
-                unregisterReceiver(this);
                 Toast.makeText(context, "Recherche terminée", Toast.LENGTH_SHORT).show(); //idéalement dans la progressbar
             }
         }
