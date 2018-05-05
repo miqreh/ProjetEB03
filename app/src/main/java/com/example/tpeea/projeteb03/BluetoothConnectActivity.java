@@ -1,5 +1,5 @@
 package com.example.tpeea.projeteb03;
-
+// Test 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
