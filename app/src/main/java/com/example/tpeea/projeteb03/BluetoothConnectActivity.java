@@ -1,4 +1,5 @@
 package com.example.tpeea.projeteb03;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,12 +59,13 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
                 BluetoothDevice newDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (newDevice.getName()!=null){
                     adapteur.add(newDevice.getName()+"\n"+newDevice.getAddress());
-                    Toast.makeText(context, "Appareil ajouté", Toast.LENGTH_SHORT).show(); //juste pour les tests
                 }
 
             }else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
                 mBluetoothAdapter.cancelDiscovery();
-                Toast.makeText(context, "Recherche terminée", Toast.LENGTH_SHORT).show(); //idéalement dans la progressbar
+                ProgressBar pb = findViewById(R.id.progressBar);
+                pb.setVisibility(View.GONE);
+                getSupportActionBar().setTitle("Appareils Bluetooth");
             }
         }
     };
@@ -74,6 +77,7 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_connect);
         setSupportActionBar((Toolbar) findViewById(R.id.toolb));
+        getSupportActionBar().setTitle("Appareils Bluetooth");
 
         //couplage de l'adapter et la listview des appareils trouvés
         final ArrayAdapter<String> foundDevicesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, foundDevicesArray);
@@ -88,6 +92,8 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
         registerReceiver(mReceiver, filter1);
         registerReceiver(mReceiver, filter2);
         mBluetoothAdapter.startDiscovery();
+        getSupportActionBar().setTitle("Recherche...");
+
 
 
         //affichage des appareils appairés
