@@ -1,7 +1,9 @@
 package com.example.tpeea.projeteb03;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,12 +18,12 @@ import java.util.UUID;
 public class BluetoothManager{
 
     private BluetoothDevice bluetoothDevice;
-    private String nomUUID = "00001101-0000-1000-8000-00805F9B34FB";
-    private UUID uuid;
+    private BluetoothAdapter mBluetoothAdapter;
+    private UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static final String TAG = "BLUETOOTHMANAGER";
     private Handler mHandler;
-    private ConnectedThread connectedThread;
-    private ConnectThread connectThread;
+    private ConnectedThread mConnectedThread;
+    private ConnectThread mConnectThread;
     public static final int STATE_NONE = 0;
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
@@ -34,56 +36,59 @@ public class BluetoothManager{
         public static final int MESSAGE_TOAST = 2;
     }
 
-    public BluetoothManager(BluetoothDevice bd){
-        this.bluetoothDevice=bd;
+
+    public BluetoothManager(Context context, Handler handler){
+        this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         this.bluetoothState=STATE_NONE;
+        this.mHandler = handler;
     }
 
-    public synchronized void connect(){
+    public synchronized void connect(BluetoothDevice bd){
+        this.bluetoothDevice=bd;
         if (this.bluetoothState == STATE_CONNECTING) {
-            if (this.connectThread != null) {
-                this.connectThread.cancel();
-                this.connectThread = null;
+            if (this.mConnectThread != null) {
+                this.mConnectThread.cancel();
+                this.mConnectThread = null;
             }
         }
 
-        if (this.connectedThread != null) {
-            this.connectedThread.cancel();
-            this.connectedThread = null;
+        if (this.mConnectedThread != null) {
+            this.mConnectedThread.cancel();
+            this.mConnectedThread = null;
         }
 
-        this.connectThread = new ConnectThread(bluetoothDevice);
-        this.connectThread.start();
+        this.mConnectThread = new ConnectThread(bluetoothDevice);
+        this.mConnectThread.start();
 
         this.setBluetoothState(STATE_CONNECTING);
     }
 
     public synchronized void connected(BluetoothSocket socket){
-        if (this.connectThread != null) {
-            this.connectThread.cancel();
-            this.connectThread = null;
+        if (this.mConnectThread != null) {
+            this.mConnectThread.cancel();
+            this.mConnectThread = null;
         }
 
-        if (this.connectedThread != null) {
-            this.connectedThread.cancel();
-            this.connectedThread = null;
+        if (this.mConnectedThread != null) {
+            this.mConnectedThread.cancel();
+            this.mConnectedThread = null;
         }
 
-        this.connectedThread = new ConnectedThread(socket);
-        this.connectedThread.start();
+        this.mConnectedThread = new ConnectedThread(socket);
+        this.mConnectedThread.start();
 
         this.setBluetoothState(STATE_CONNECTED);
     }
 
     public synchronized void stopConnection(){
-            if (this.connectThread != null) {
-                this.connectThread.cancel();
-                this.connectThread = null;
+            if (this.mConnectThread != null) {
+                this.mConnectThread.cancel();
+                this.mConnectThread = null;
             }
 
-        if (this.connectedThread != null) {
-            this.connectedThread.cancel();
-            this.connectedThread = null;
+        if (this.mConnectedThread != null) {
+            this.mConnectedThread.cancel();
+            this.mConnectedThread = null;
         }
 
         this.setBluetoothState(STATE_NONE);
@@ -95,7 +100,7 @@ public class BluetoothManager{
                 return;
             }
         }
-        connectedThread.write(out);
+        mConnectedThread.write(out);
     }
 
 
@@ -116,7 +121,6 @@ public class BluetoothManager{
             tDevice = bd;
             try {
                 // Connexion du socket avec le device à partir de son uuid
-                UUID uuid = UUID.fromString(nomUUID);
                 tmp = tDevice.createRfcommSocketToServiceRecord(uuid);
             } catch (IOException e) {
                 Log.e(TAG, "Erreur dans la méthode create() du socket", e);
@@ -125,7 +129,7 @@ public class BluetoothManager{
         }
 
         public void run() {
-            //mBluetoothAdapter.cancelDiscovery();
+            mBluetoothAdapter.cancelDiscovery();
             try {
                 // Connexion à travers le socket, bloquante jusqu'à sa réussite ou une exception
                 tSocket.connect();

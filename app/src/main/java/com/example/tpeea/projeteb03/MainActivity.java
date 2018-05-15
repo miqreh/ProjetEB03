@@ -24,6 +24,7 @@ import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothManager mBluetoothManager = null;
     private final static int NO_ADAPTER = 0;
     private final static String[] PERMISSIONS = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION};
     private final int PERMISSIONS_REQUEST_CODE = 1;
