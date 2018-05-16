@@ -10,10 +10,11 @@ public class FrameProcessor {
         byte header = 0x05;
         byte tail = 0x04;
         byte[] length = {0x00, (byte) commande.length};
-        int sumPayload= toSumTab(commande);
-        int sum = header + length[1] + sumPayload;
-        byte ctrl = (byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16);
         byte[] payload = toEchap(commande);
+        int sumPayload= toSumTab(payload);
+        int sum =length[1] + sumPayload;
+        byte ctrl = (byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16);
+
 
         byte[] frame = new byte[3 + length.length + payload.length];
         int i=0;
@@ -48,9 +49,9 @@ public class FrameProcessor {
     String toComplement2(String hex){
         int i = Integer.parseInt(hex, 16);
         i = i%256;
-        int result=256-i;
+        int result=256+~i;
 
-        return  Integer.toString(result);
+        return  Integer.toHexString(result);
     }
 
     int toSumTab(byte[] tab){
@@ -64,25 +65,28 @@ public class FrameProcessor {
     byte[] toEchap(byte[] b){
         int i=0;
         for (byte bi: b) {
-            if (bi == 0x06) {
+            if (bi == 0x06 || bi == 0x04 || bi == 0x05) {
                 i++;
             }
         }
         byte[] result= new byte[b.length+i];
         i=0;
         for (byte bi:b){
-            result[i]=bi;
-            i++;
-            if(bi==0x06){
-                result[i]=0x0C;
-            }
 
+            if(bi== 0x06 || bi == 0x04 || bi == 0x05){
+                result[i]=0x06;
+                result[i+1]=(byte) (bi +0x06);
+            i+=2;
+            }else{
+                result[i]=bi;
+                i++;
+            }
         }
         return result;
     }
 
     public static void main (String[] args){
-        byte[] b = {0x07,0x06,0x0c};
+        byte[] b = {0x07,0x06};
         FrameProcessor fp =new FrameProcessor();
         System.out.print(fp.toFrame(b));
     }
