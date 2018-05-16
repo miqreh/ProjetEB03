@@ -81,10 +81,10 @@ public class BluetoothManager{
     }
 
     public synchronized void stopConnection(){
-            if (this.mConnectThread != null) {
-                this.mConnectThread.cancel();
-                this.mConnectThread = null;
-            }
+        if (this.mConnectThread != null) {
+            this.mConnectThread.cancel();
+            this.mConnectThread = null;
+        }
 
         if (this.mConnectedThread != null) {
             this.mConnectedThread.cancel();
@@ -232,9 +232,3 @@ public class BluetoothManager{
     };
 
 }
-
-
-
-
-
-

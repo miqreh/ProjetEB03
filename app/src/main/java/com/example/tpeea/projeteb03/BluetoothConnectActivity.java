@@ -57,7 +57,7 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
             if (BluetoothDevice.ACTION_FOUND.equals(action))
             {
                 BluetoothDevice newDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (newDevice.getName()!=null){
+                if (newDevice.getName()!=null && newDevice.getBondState()!=newDevice.BOND_BONDED){
                     adapteur.add(newDevice.getName()+"\n"+newDevice.getAddress());
                 }
 
@@ -114,4 +114,3 @@ public class BluetoothConnectActivity extends AppCompatActivity implements Adapt
         super.onDestroy();
     }
 }
-

@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -24,7 +25,8 @@ import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
-    private BluetoothManager mBluetoothManager = null;
+    private BluetoothManager mBluetoothManager;
+    private Handler mHandler;
     private final static int NO_ADAPTER = 0;
     private final static String[] PERMISSIONS = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION};
     private final int PERMISSIONS_REQUEST_CODE = 1;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.mHandler = new Handler();
+        this.mBluetoothManager = new BluetoothManager(this, mHandler);
     }
 
     @Override
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 BluetoothDevice btDevice = data.getParcelableExtra("btDevice");
                 Toast.makeText(this, btDevice.getName(), Toast.LENGTH_SHORT).show();
                 //connection à btdevice:
+                mBluetoothManager.connect(btDevice);
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "retour cancelled", Toast.LENGTH_SHORT).show();
@@ -109,5 +114,4 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 }
