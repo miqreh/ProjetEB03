@@ -13,7 +13,7 @@ public class FrameProcessor {
         byte[] payload = toEchap(commande);
         int sumPayload= toSumTab(payload);
         int sum =length[1] + sumPayload;
-        byte ctrl = (byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16);
+        byte ctrl = (byte)Integer.parseInt(toComplement(Integer.toHexString(sum)),16);
 
 
         byte[] frame = new byte[3 + length.length + payload.length];
