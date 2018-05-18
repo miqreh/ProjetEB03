@@ -90,7 +90,8 @@ public class FrameProcessor {
         // Test
         byte[] b = {0x07,0x06};
         FrameProcessor fp =new FrameProcessor();
-        System.out.print(fp.toFrame(b));
+        byte[] result =fp.toFrame(b);
+        System.out.print(result);
     }
 
 }
