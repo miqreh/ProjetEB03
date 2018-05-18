@@ -87,12 +87,10 @@ public class FrameProcessor {
     }
 
     public static void main (String[] args){
+        // Test
         byte[] b = {0x07,0x06};
         FrameProcessor fp =new FrameProcessor();
         System.out.print(fp.toFrame(b));
-       /* System.out.println(fp.toComplement("f"));
-        System.out.println(fp.toComplement2("F"));
-        System.out.println(fp.toComplement3("F"));*/
     }
 
 }

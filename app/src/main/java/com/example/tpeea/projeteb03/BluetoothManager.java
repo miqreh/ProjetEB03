@@ -28,6 +28,7 @@ public class BluetoothManager{
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
     private int bluetoothState;
+    private FrameProcessor mFp;
 
     //Constantes liées aux messages entre l'interface utilisateur et le device
     private interface MessageConstants {
@@ -230,5 +231,12 @@ public class BluetoothManager{
 
 
     };
+
+    public void attachFrameProcessor(FrameProcessor frameProcessor){
+        mFp=frameProcessor;
+    }
+    public void detachFrameProcessor(){
+        mFp=null;
+    }
 
 }
