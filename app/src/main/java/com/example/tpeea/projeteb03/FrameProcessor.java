@@ -11,9 +11,9 @@ public class FrameProcessor {
         byte tail = 0x04;
         byte[] length = {0x00, (byte) commande.length};
         byte[] payload = toEchap(commande);
-        int sumPayload= toSumTab(payload);
+        int sumPayload= toSumTab(commande);
         int sum =length[1] + sumPayload;
-        byte ctrl = (byte)Integer.parseInt(toComplement(Integer.toHexString(sum)),16);
+        byte ctrl = (byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16);
 
 
         byte[] frame = new byte[3 + length.length + payload.length];
@@ -49,9 +49,14 @@ public class FrameProcessor {
     String toComplement2(String hex){
         int i = Integer.parseInt(hex, 16);
         i = i%256;
-        int result=256+~i;
+        int result=256+~i +1;
 
         return  Integer.toHexString(result);
+    }
+
+    String toComplement3(String hex){
+        int i = Integer.parseInt(hex, 16);
+        return Integer.toHexString(255 - (i / 256) - i / 256 * 256) + 1;
     }
 
     int toSumTab(byte[] tab){
@@ -89,6 +94,9 @@ public class FrameProcessor {
         byte[] b = {0x07,0x06};
         FrameProcessor fp =new FrameProcessor();
         System.out.print(fp.toFrame(b));
+       /* System.out.println(fp.toComplement("f"));
+        System.out.println(fp.toComplement2("F"));
+        System.out.println(fp.toComplement3("F"));*/
     }
 
 }
