@@ -64,10 +64,10 @@ public class OscilloManager implements Transceiver.TransceiverDataListener, Tran
         return commande;
     }
 
-    public byte[] setCalibrationDutyCycle(int dutyCycle){
+    public byte[] setCalibrationDutyCycle(float dutyCycle){
         byte[] commande = {0x0A,0};
-        if(dutyCycle>=0 && dutyCycle<=100){
-            commande[1] = (byte)dutyCycle;
+        if(dutyCycle>=0 && dutyCycle<=1){
+            commande[1] = (byte)(dutyCycle*100);
         }
         return commande;
     }
@@ -92,7 +92,6 @@ public class OscilloManager implements Transceiver.TransceiverDataListener, Tran
         }else{
             result = new StringBuilder(hex);
         }
-
         return result.toString();
     }
 
