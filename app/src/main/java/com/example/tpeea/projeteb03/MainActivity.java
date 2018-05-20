@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Slider mSlider = findViewById(R.id.mSlider);
         this.mHandler = new Handler();
         this.mBluetoothManager = new BluetoothManager(this, mHandler);
     }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Slider">
+        <attr name = "barLength" format = "dimension"/>
+        <attr name = "barWidth" format = "dimension"/>
+        <attr name = "cursorDiameter" format = "dimension"/>
+        <attr name = "direction" format = "enum">
+            <enum name="TO_LEFT" value = "0"/>
+            <enum name="TO_RIGHT" value = "1"/>
+            <enum name="TO_TOP" value = "2"/>
+            <enum name="TO_BOTTOM" value = "3"/>
+        </attr>
+        <attr name = "disabled" format = "boolean" />
+        <attr name = "disabledColor" format = "color"/>
+        <attr name = "barColor" format = "color"/>
+        <attr name = "valueColor" format = "color"/>
+        <attr name = "cursorColor" format = "color"/>
+        <attr name = "min" format = "float"/>
+        <attr name = "max" format = "float"/>
+        <attr name = "value" format = "float"/>
+    </declare-styleable>
+</resources>
