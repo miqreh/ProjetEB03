@@ -75,10 +75,7 @@ public class BluetoothManager{
     }
 
     public synchronized void connected(BluetoothSocket socket){
-        if (this.mConnectThread != null) {
-            this.mConnectThread.cancel();
-            this.mConnectThread = null;
-        }
+
 
         if (this.mConnectedThread != null) {
             this.mConnectedThread.cancel();
@@ -86,6 +83,12 @@ public class BluetoothManager{
         }
 
         this.mConnectedThread = new ConnectedThread(socket);
+
+        if (this.mConnectThread != null) {
+            this.mConnectThread.cancel();
+            this.mConnectThread = null;
+        }
+
         this.mConnectedThread.start();
 
         this.setBluetoothState(STATE_CONNECTED);
