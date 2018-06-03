@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
                     //envoyer la commande
                     mTextView.setText(String.valueOf((int)value));
                     byte[] trame=mFrameProcessor.toFrame(mOscilloManager.setCalibrationDutyCycle(value));
-                    if(mBluetoothManager!=null){
+                    if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTED){
                         mBluetoothManager.write(trame);
+                        Toast.makeText(MainActivity.this,"envoi de la trame",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -141,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, btDevice.getName(), Toast.LENGTH_SHORT).show();
                 //connection à btdevice:
                 mBluetoothManager.connect(btDevice);
+                //lancement du connectedThread
+                if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTING){
+                    mBluetoothManager.connected(mBluetoothManager.getmConnectThread().gettSocket());
+                }
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "retour cancelled", Toast.LENGTH_SHORT).show();

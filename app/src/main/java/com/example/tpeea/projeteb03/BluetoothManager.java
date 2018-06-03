@@ -24,6 +24,9 @@ public class BluetoothManager{
     private static final String TAG = "BLUETOOTHMANAGER";
     private Handler mHandler;
     private ConnectedThread mConnectedThread;
+
+
+
     private ConnectThread mConnectThread;
     public static final int STATE_NONE = 0;
     public static final int STATE_CONNECTING = 1;
@@ -124,6 +127,14 @@ public class BluetoothManager{
     }
 
     class ConnectThread extends Thread{
+        public BluetoothSocket gettSocket() {
+            return tSocket;
+        }
+
+        public BluetoothDevice gettDevice() {
+            return tDevice;
+        }
+
         private final BluetoothSocket tSocket;
         private final BluetoothDevice tDevice;
         public boolean isConnected = false;
@@ -250,4 +261,21 @@ public class BluetoothManager{
         mFp=null;
     }*/
 
+
+
+    public ConnectedThread getmConnectedThread() {
+        return mConnectedThread;
+    }
+
+    public void setmConnectedThread(ConnectedThread mConnectedThread) {
+        this.mConnectedThread = mConnectedThread;
+    }
+
+    public ConnectThread getmConnectThread() {
+        return mConnectThread;
+    }
+
+    public void setmConnectThread(ConnectThread mConnectThread) {
+        this.mConnectThread = mConnectThread;
+    }
 }
