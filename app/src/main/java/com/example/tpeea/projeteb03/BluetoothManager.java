@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +29,9 @@ public class BluetoothManager{
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
     private int bluetoothState;
-    private FrameProcessor mFp;
+    //private FrameProcessor mFp;
+
+    private Context mContext;
 
     //Constantes liées aux messages entre l'interface utilisateur et le device
     private interface MessageConstants {
@@ -42,6 +45,7 @@ public class BluetoothManager{
         this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         this.bluetoothState=STATE_NONE;
         this.mHandler = handler;
+        this.mContext=context;
     }
 
     public synchronized void connect(BluetoothDevice bd){
@@ -62,6 +66,9 @@ public class BluetoothManager{
         this.mConnectThread.start();
 
         this.setBluetoothState(STATE_CONNECTING);
+        if(mConnectThread.isConnected==true){
+            Toast.makeText(mContext, "très cool", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public synchronized void connected(BluetoothSocket socket){
@@ -79,6 +86,8 @@ public class BluetoothManager{
         this.mConnectedThread.start();
 
         this.setBluetoothState(STATE_CONNECTED);
+
+
     }
 
     public synchronized void stopConnection(){
@@ -117,6 +126,7 @@ public class BluetoothManager{
     class ConnectThread extends Thread{
         private final BluetoothSocket tSocket;
         private final BluetoothDevice tDevice;
+        public boolean isConnected = false;
         public ConnectThread(BluetoothDevice bd){
             BluetoothSocket tmp = null;
             tDevice = bd;
@@ -145,6 +155,7 @@ public class BluetoothManager{
             }
 
             //Connexion réussie
+            isConnected=true;
 
         }
 
@@ -232,11 +243,11 @@ public class BluetoothManager{
 
     };
 
-    public void attachFrameProcessor(FrameProcessor frameProcessor){
+    /*public void attachFrameProcessor(FrameProcessor frameProcessor){
         mFp=frameProcessor;
     }
     public void detachFrameProcessor(){
         mFp=null;
-    }
+    }*/
 
 }

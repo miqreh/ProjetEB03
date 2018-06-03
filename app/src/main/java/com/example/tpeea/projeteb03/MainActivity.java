@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.support.v4.content.PermissionChecker.PERMISSION_DENIED;
@@ -26,7 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothManager mBluetoothManager;
+    private OscilloManager mOscilloManager;
+    private FrameProcessor mFrameProcessor;
+    private Slider mSlider;
     private Handler mHandler;
+    private TextView mTextView;
     private final static int NO_ADAPTER = 0;
     private final static String[] PERMISSIONS = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION};
     private final int PERMISSIONS_REQUEST_CODE = 1;
@@ -39,10 +44,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Slider mSlider = findViewById(R.id.mSlider);
+        this.mSlider = findViewById(R.id.mSlider);
         this.mHandler = new Handler();
         this.mBluetoothManager = new BluetoothManager(this, mHandler);
+        this.mOscilloManager= OscilloManager.getOscilloManager();
+        this.mFrameProcessor= new FrameProcessor();
+        mTextView = findViewById(R.id.valueSlider);
+
+
+        mSlider.setSliderListener(new Slider.SliderListener() {
+            @Override
+            public void onValueChanged(View view, float value) {
+                if(view.getId()==R.id.mSlider){
+                    //envoyer la commande
+                    mTextView.setText(String.valueOf((int)value));
+                    byte[] trame=mFrameProcessor.toFrame(mOscilloManager.setCalibrationDutyCycle(value));
+                    if(mBluetoothManager!=null){
+                        mBluetoothManager.write(trame);
+                    }
+                }
+            }
+
+            @Override
+            public void onDoubleClick(View view,float value) {
+                Toast.makeText(MainActivity.this,"Double Click",Toast.LENGTH_SHORT).show();
+                if(view.getId()==R.id.mSlider){
+                    //mTextView.setText(String.valueOf((int)value));
+                }
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
