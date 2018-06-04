@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         this.mOscilloManager= OscilloManager.getOscilloManager();
         this.mFrameProcessor= new FrameProcessor();
         mTextViewValue = findViewById(R.id.valueSlider);
-        
+
 
 
 
@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, btDevice.getName(), Toast.LENGTH_SHORT).show();
                 //connection à btdevice:
                 mBluetoothManager.connect(btDevice);
-                mTextViewState.setText("connecté");
                 //lancement du connectedThread
                 if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTING){
                     mBluetoothManager.connected(mBluetoothManager.getmConnectThread().gettSocket());
