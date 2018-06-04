@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         this.mOscilloManager= OscilloManager.getOscilloManager();
         this.mFrameProcessor= new FrameProcessor();
         mTextViewValue = findViewById(R.id.valueSlider);
-        mTextViewState=findViewById(R.id.state);
+        
 
 
 
