@@ -12,21 +12,30 @@ public class FrameProcessor {
         byte tail = 0x04;
         // length indique la taille de la commande
         byte[] length = {0x00, (byte) commande.length};
-        byte[] payload = toEchap(commande);
+        //byte[] payload = toEchap(commande);
         int sum =length[1] +toSumTab(commande);
         byte ctrl = (byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16);
+        byte[] preEchap = new byte[length.length+commande.length+1+1];
+        preEchap[0]=length[0];
+        preEchap[1]=length[1];
+        int j=2;
+        for(byte b:commande){
+            preEchap[j]=b;
+            j++;
+        }
+        preEchap[j+1]=ctrl;
+
+        byte[] payload = toEchap(preEchap);
         byte[] frame = new byte[3 + length.length + payload.length];
 
         // On assemble tous les éléments de la frame pour la construire
         frame[0] = header;
-        frame[1]=length[0];
-        frame[2]=length[1];
-        int i=3;
+        int i=1;
         for(byte b:payload){
             frame[i]=b;
             i++;
         }
-        frame[i]=ctrl;
+
         frame[i+1]=tail;
 
         return frame;

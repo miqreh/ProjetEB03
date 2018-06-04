@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.support.v4.content.PermissionChecker.PERMISSION_DENIED;
-import static android.support.v4.content.PermissionChecker.PERMISSION_DENIED_APP_OP;
-import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private FrameProcessor mFrameProcessor;
     private Slider mSlider;
     private Handler mHandler;
-    private TextView mTextView;
+    private TextView mTextViewValue;
+    private TextView mTextViewState;
     private final static int NO_ADAPTER = 0;
     private final static String[] PERMISSIONS = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION};
     private final int PERMISSIONS_REQUEST_CODE = 1;
@@ -49,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
         this.mBluetoothManager = new BluetoothManager(this, mHandler);
         this.mOscilloManager= OscilloManager.getOscilloManager();
         this.mFrameProcessor= new FrameProcessor();
-        mTextView = findViewById(R.id.valueSlider);
+        mTextViewValue = findViewById(R.id.valueSlider);
+        mTextViewState=findViewById(R.id.state);
+
 
 
         mSlider.setSliderListener(new Slider.SliderListener() {
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onValueChanged(View view, float value) {
                 if(view.getId()==R.id.mSlider){
                     //envoyer la commande
-                    mTextView.setText(String.valueOf((int)value));
+                    mTextViewValue.setText(String.valueOf((int)value));
                     byte[] trame=mFrameProcessor.toFrame(mOscilloManager.setCalibrationDutyCycle(value));
                     if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTED){
                         mBluetoothManager.write(trame);
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDoubleClick(View view,float value) {
                 Toast.makeText(MainActivity.this,"Double Click",Toast.LENGTH_SHORT).show();
                 if(view.getId()==R.id.mSlider){
-                    //mTextView.setText(String.valueOf((int)value));
+                    //mTextViewValue.setText(String.valueOf((int)value));
                 }
             }
         });
@@ -142,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, btDevice.getName(), Toast.LENGTH_SHORT).show();
                 //connection à btdevice:
                 mBluetoothManager.connect(btDevice);
+                mTextViewState.setText("connecté");
                 //lancement du connectedThread
                 if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTING){
                     mBluetoothManager.connected(mBluetoothManager.getmConnectThread().gettSocket());

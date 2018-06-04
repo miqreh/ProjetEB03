@@ -83,12 +83,6 @@ public class BluetoothManager{
         }
 
         this.mConnectedThread = new ConnectedThread(socket);
-
-        if (this.mConnectThread != null) {
-            this.mConnectThread.cancel();
-            this.mConnectThread = null;
-        }
-
         this.mConnectedThread.start();
 
         this.setBluetoothState(STATE_CONNECTED);
@@ -213,10 +207,10 @@ public class BluetoothManager{
             int numBytes; // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs.
-            while (true) {
+            /*while (true) {
                 try {
                     // Read from the InputStream.
-                    numBytes = tInStream.read(tBuffer);
+                        numBytes = tInStream.read(tBuffer);
                     // Send the obtained bytes to the UI activity.
                     Message readMsg = mHandler.obtainMessage(MessageConstants.MESSAGE_READ, numBytes, -1, tBuffer);
                     readMsg.sendToTarget();
@@ -224,14 +218,13 @@ public class BluetoothManager{
                     Log.d(TAG, "Input stream déconnecté", e);
                     break;
                 }
-            }
+            }*/
         }
 
         // Appellée pour envoyer des données vers l'oscillo
         public void write(byte[] bytes) {
             try {
                 tOutStream.write(bytes);
-
                 Message writtenMsg = mHandler.obtainMessage(MessageConstants.MESSAGE_WRITE, -1, -1, tBuffer);
                 writtenMsg.sendToTarget();
             } catch (IOException e) {
