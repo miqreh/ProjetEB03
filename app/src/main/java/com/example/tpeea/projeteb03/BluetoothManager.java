@@ -178,20 +178,20 @@ public class BluetoothManager{
     };
 
     class ConnectedThread extends Thread{
-        private final BluetoothSocket tSocket;
-        private final InputStream tInStream;
-        private final OutputStream tOutStream;
-        private byte[] tBuffer;
+                private final BluetoothSocket tSocket;
+                private final InputStream tInStream;
+                private final OutputStream tOutStream;
+                private byte[] tBuffer;
 
-        public ConnectedThread(BluetoothSocket bs){
-            this.tSocket=bs;
-            InputStream tmpIn = null;
-            OutputStream tmpOut=null;
-            try {
-                tmpIn = tSocket.getInputStream();
-            } catch (IOException e) {
-                Log.e(TAG, "Erreur dans la création de l'InputStream", e);
-            }
+                public ConnectedThread(BluetoothSocket bs){
+                    this.tSocket=bs;
+                    InputStream tmpIn = null;
+                    OutputStream tmpOut=null;
+                    try {
+                        tmpIn = tSocket.getInputStream();
+                    } catch (IOException e) {
+                        Log.e(TAG, "Erreur dans la création de l'InputStream", e);
+                    }
             try {
                 tmpOut = tSocket.getOutputStream();
             } catch (IOException e) {

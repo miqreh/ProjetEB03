@@ -26,7 +26,7 @@ public class FrameProcessor {
         preEchap[j+1]=ctrl;
 
         byte[] payload = toEchap(preEchap);
-        byte[] frame = new byte[3 + length.length + payload.length];
+        byte[] frame = new byte[3 + payload.length];
 
         // On assemble tous les éléments de la frame pour la construire
         frame[0] = header;
