@@ -5,6 +5,8 @@ package com.example.tpeea.projeteb03;
  */
 
 public class FrameProcessor {
+
+    public StringBuilder str=new StringBuilder("");
     // On reçoit en paramètres un tableau de byte contenan la commande et ses arguments
     public byte[] toFrame(byte[] commande) {
         // On construit la trame
@@ -28,6 +30,7 @@ public class FrameProcessor {
         byte[] payload = toEchap(preEchap);
         byte[] frame = new byte[3 + payload.length];
 
+
         // On assemble tous les éléments de la frame pour la construire
         frame[0] = header;
         int i=1;
@@ -37,6 +40,12 @@ public class FrameProcessor {
         }
 
         frame[i+1]=tail;
+        if (str.length()>frame.length){
+            str.setLength(0);
+        }
+        for (byte b : frame) {
+            str.append(String.format("%02X ", b));
+        }
 
         return frame;
     }

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Slider mSlider;
     private Handler mHandler;
     private TextView mTextViewValue;
-    private TextView mTextViewState;
+    private TextView mTextViewString;
     private final static int NO_ADAPTER = 0;
     private final static String[] PERMISSIONS = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.ACCESS_FINE_LOCATION};
     private final int PERMISSIONS_REQUEST_CODE = 1;
@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         this.mBluetoothManager = new BluetoothManager(this, mHandler);
         this.mOscilloManager= OscilloManager.getOscilloManager();
         this.mFrameProcessor= new FrameProcessor();
-        mTextViewValue = findViewById(R.id.valueSlider);
+        //mTextViewValue = findViewById(R.id.valueSlider);
+        mTextViewString = findViewById(R.id.stringSlider);
 
 
 
@@ -56,9 +57,11 @@ public class MainActivity extends AppCompatActivity {
             public void onValueChanged(View view, float value) {
                 if(view.getId()==R.id.mSlider){
                     //envoyer la commande
-                    mTextViewValue.setText(String.valueOf((int)value));
+                    //mTextViewValue.setText(String.valueOf((int)value));
                     byte[] trame=mFrameProcessor.toFrame(mOscilloManager.setCalibrationDutyCycle(value));
+                    mTextViewString.setText(mFrameProcessor.str);
                     if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTED){
+
                         mBluetoothManager.write(trame);
                         Toast.makeText(MainActivity.this,"envoi de la trame",Toast.LENGTH_SHORT).show();
                     }
