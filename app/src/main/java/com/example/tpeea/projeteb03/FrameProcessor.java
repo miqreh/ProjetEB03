@@ -16,7 +16,7 @@ public class FrameProcessor {
         byte[] length = {0x00, (byte) commande.length};
         //byte[] payload = toEchap(commande);
         int sum =length[1] +toSumTab(commande);
-        byte ctrl = (byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16);
+        byte ctrl = (byte) unsignedToBytes((byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16));
         byte[] preEchap = new byte[length.length+commande.length+1];
         preEchap[0]=length[0];
         preEchap[1]=length[1];
@@ -68,6 +68,7 @@ public class FrameProcessor {
         int result=256+~i +1;
 
         return  Integer.toHexString(result);
+
     }
 
 /*    String toComplement3(String hex){
@@ -104,6 +105,10 @@ public class FrameProcessor {
             }
         }
         return result;
+    }
+
+    public static int unsignedToBytes(byte b) {
+        return b & 0xFF;
     }
 
     public static void main (String[] args){
