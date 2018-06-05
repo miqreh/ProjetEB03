@@ -17,7 +17,7 @@ public class FrameProcessor {
         //byte[] payload = toEchap(commande);
         int sum =length[1] +toSumTab(commande);
         byte ctrl = (byte)Integer.parseInt(toComplement2(Integer.toHexString(sum)),16);
-        byte[] preEchap = new byte[length.length+commande.length+1+1];
+        byte[] preEchap = new byte[length.length+commande.length+1];
         preEchap[0]=length[0];
         preEchap[1]=length[1];
         int j=2;
@@ -25,10 +25,10 @@ public class FrameProcessor {
             preEchap[j]=b;
             j++;
         }
-        preEchap[j+1]=ctrl;
+        preEchap[j]=ctrl;
 
         byte[] payload = toEchap(preEchap);
-        byte[] frame = new byte[3 + payload.length];
+        byte[] frame = new byte[2 + payload.length];
 
 
         // On assemble tous les éléments de la frame pour la construire
@@ -38,8 +38,10 @@ public class FrameProcessor {
             frame[i]=b;
             i++;
         }
+        frame[i]=tail;
 
-        frame[i+1]=tail;
+
+
         if (str.length()>frame.length){
             str.setLength(0);
         }
