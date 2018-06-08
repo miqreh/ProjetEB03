@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 if(view.getId()==R.id.mSlider){
                     //envoyer la commande
                     //mTextViewValue.setText(String.valueOf((int)value));
-                    byte[] trame=mFrameProcessor.toFrame(mOscilloManager.setCalibrationDutyCycle(value));
-                    mTextViewString.setText(mFrameProcessor.str);
-                    if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTED){
 
+                    if(mBluetoothManager.getBluetoothState()==mBluetoothManager.STATE_CONNECTED){
+                        byte[] trame=mFrameProcessor.toFrame(mOscilloManager.setCalibrationDutyCycle(value));
+                        mTextViewString.setText(mFrameProcessor.str);
                         mBluetoothManager.write(trame);
                         Toast.makeText(MainActivity.this,"envoi de la trame",Toast.LENGTH_SHORT).show();
                     }

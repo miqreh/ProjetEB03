@@ -110,6 +110,7 @@ public class BluetoothManager{
                 return;
             }
         }
+        Log.i(TAG, "writing");
         mConnectedThread.write(out);
     }
 
@@ -224,7 +225,9 @@ public class BluetoothManager{
         // Appellée pour envoyer des données vers l'oscillo
         public void write(byte[] bytes) {
             try {
+                Log.i(TAG, "writing pour de vrai");
                 tOutStream.write(bytes);
+                Log.i(TAG, "postwriting");
                 Message writtenMsg = mHandler.obtainMessage(MessageConstants.MESSAGE_WRITE, -1, -1, tBuffer);
                 writtenMsg.sendToTarget();
             } catch (IOException e) {

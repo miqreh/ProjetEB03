@@ -69,6 +69,7 @@ public class OscilloManager implements Transceiver.TransceiverDataListener, Tran
         if(dutyCycle>=0 && dutyCycle<=1){
             commande[1] = (byte)(dutyCycle*100);
         }else{
+
             commande[1]=(byte)(dutyCycle);
         }
         return commande;
